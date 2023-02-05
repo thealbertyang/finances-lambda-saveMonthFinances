@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CloudFormation template for EventBridge rule 'saveMonthFinances'
+Resources:
+  EventRuleSaveMonthFinances:
+    Type: AWS::Events::Rule
+    Properties:
+      EventBusName: default
+      Name: saveMonthFinances
+      ScheduleExpression: cron(0 0 1 * ? *)
+      State: ENABLED
+      Targets:
+        - Id: Id9295691e-9d7e-453c-a1d5-e024ef004399
+          Arn: arn:aws:lambda:us-west-2:201861034730:function:saveMonthFinances
+  saveMonthFinances:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      FunctionName: saveMonthFinances2
+      Handler: index.handler
+      Runtime: nodejs14.x
+      Code:
+        S3Bucket: finances-deployments
+        S3Key: lambdas/saveMonthFinances.zip
+      Description: Demonstrates using a built-in Node.js module to make an HTTPS request.
+      MemorySize: 128
+      Timeout: 60
+      Role: >-
+        arn:aws:iam::201861034730:role/service-role/saveMonthFinances-role-xq1xglqm
